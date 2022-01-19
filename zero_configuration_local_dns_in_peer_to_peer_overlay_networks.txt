@@ -1,0 +1,4 @@
+
+In this document we outline a name resolution mechanism for "local" name resolution of hostnames.
+The term "local" does not refer to link-local type locality but to locality in the sense of 
+a set of nodes being under a single entities control.
