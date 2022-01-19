@@ -1,4 +1,6 @@
 
+1. Introduction
+
 In this document we outline a name resolution mechanism for "local" name resolution of hostnames
 in a certain type of peer-to-peer overlay networks like e.g. yggdrasil. The term "local" does 
 not refer to link-local type locality as in e.g. mDNS but to locality in the sense of a set 
@@ -6,7 +8,9 @@ of nodes, N_local, being under a single entities control.
 
 In these kind of networks the IP address of a node is derived from a public/private key pair 
 which is usually unique per node. Additionally it is initialized randomly. We propose to change
-this initialization scheme to make the IP address predictable:
+this initialization scheme to make the IP address predictable.
+
+2. Local node key pair derivation
 
 We first initialize a random key pair, K_main, from which all other key pairs for the local nodes 
 are derived deterministically (as described below). This in turn makes the IP adresses of the local
@@ -17,14 +21,21 @@ derivation of a nodes key pair, K_node, proceeds as follows. K_main_private is X
 local hostname resulting in K_node_private and the public key K_node_public is derived from 
 K_node_private.
 
+So instead of each node initializing its K_local during installation it is configured with K_main. 
+On startup it rederives its K_local from K_main and the hostname. It could even detect hostname 
+changes and automatically rederive its K_local.
+
+3. Name resolution for local nodes
+
+A name resolution service knowing K_main_private could respond to a name resolution request for a 
+name n precisely as above: K_main_private XOR n, then rederive the public key and finally the IP
+address which it returns.
+
 To practically implement this the name resolution service needs to know K_main_private. This service
 could run on a privileged node, but to achieve more decentralization we propose to let each node
 be a name resolution service itself. This is similar in spirit to Yggns [1]. Upon node installation
 the node would have to register as a name resolution service on the host where it is installed.
 
-So instead of each node deriving its K_local during installation it is configured with K_main. On
-startup it rederives its K_local from K_main and the hostname. It could even detect hostname changes
-and automatically rederive its K_local.
-
+4. Hierarchical name resolution
 
 [1] https://github.com/russian-meshnet/YggNS
