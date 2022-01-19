@@ -6,9 +6,13 @@ in a certain type of peer-to-peer overlay networks like e.g. yggdrasil. The term
 not refer to link-local type locality as in e.g. mDNS but to locality in the sense of a set 
 of nodes, N_local, being under a single entities control.
 
-In these kind of networks the IP address of a node is derived from a public/private key pair 
-which is usually unique per node. Additionally it is initialized randomly. We propose to change
-this initialization scheme to make the IP address predictable.
+In these kind of networks the address of a node (e.g. the IPv6 address in the case of the yggdrasil
+network) is derived from a public/private key pair which is usually unique per node and initialized 
+randomly. We propose to change this initialization scheme to make the address predictable and depend
+on the hostname which in effect enables looking up.
+
+This is achieved by all local nodes sharing a secret, i.e. a private key from which the individual
+nodes' key pars are derived.
 
 2. Local node key pair derivation
 
